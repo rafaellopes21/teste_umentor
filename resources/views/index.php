@@ -10,127 +10,99 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link href="assets/css/global.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6ac77c14e0.js" crossorigin="anonymous"></script>
+    <link href="assets/css/global.css" rel="stylesheet">
 </head>
 <body>
-
-    <h1>Hello World</h1>
     <div class="container mt-5">
-        <h2 class="mb-4">Tabela Responsiva com Paginação</h2>
-        <table id="example" class="table table-bordered table-striped">
+        <h2 class="mb-4">Lista de Usuários Cadastrados</h2>
+
+        <div class="row">
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#inserUserModal">
+                    <i class="fa-solid fa-plus"></i> Adicionar Usuário
+                </button>
+            </div>
+        </div>
+
+        <table id="users_list" class="table table-bordered table-striped">
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-            </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Situação</th>
+                    <th>Dt. Emissão</th>
+                    <th>Cadastro em</th>
+                    <th>Atualizado em</th>
+                    <th>Ação</th>
+                </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>João</td>
-                <td>joao@example.com</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Maria</td>
-                <td>maria@example.com</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Carlos</td>
-                <td>carlos@example.com</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Ana</td>
-                <td>ana@example.com</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Pedro</td>
-                <td>pedro@example.com</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>Lucas</td>
-                <td>lucas@example.com</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>Fernanda</td>
-                <td>fernanda@example.com</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>Mateus</td>
-                <td>mateus@example.com</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>Beatriz</td>
-                <td>beatriz@example.com</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>Júlia</td>
-                <td>julia@example.com</td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>Rafael</td>
-                <td>rafael@example.com</td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td>Gabriel</td>
-                <td>gabriel@example.com</td>
-            </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 
+    <div class="modal fade" id="inserUserModal" tabindex="-1" aria-labelledby="inserUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form id="form_user">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adicionar Usuário</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-sm-12 col-md-7 mb-3">
+                            <label for="nome" class="form-label">Nome <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control validate-field" id="nome" name="nome" required>
+                            <div class="invalid-feedback">Campo Obrigatório.</div>
+                        </div>
+                        <div class="col-sm-12 col-md-5 mb-3">
+                            <label for="situacao" class="form-label">Situação <small class="text-danger">*</small></label>
+                            <select class="form-select validate-field" id="situacao" name="situacao" required>
+                                <option selected disabled>Selecione...</option>
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                            <div class="invalid-feedback">Seleção Obrigatória.</div>
+                        </div>
+                        <div class="col-sm-12 col-md-7 mb-3">
+                            <label for="email" class="form-label">Email <small class="text-danger">*</small></label>
+                            <input type="email" class="form-control validate-field" id="email" name="email" required>
+                            <div class="invalid-feedback">Campo Obrigatório.</div>
+                        </div>
+                        <div class="col-sm-12 col-md-5 mb-3">
+                            <label for="data_admissao" class="form-label">Data de Admissão <small class="text-danger">*</small></label>
+                            <input type="date" class="form-control validate-field" id="data_admissao" name="data_admissao" required>
+                            <div class="invalid-feedback">Necessário informar a data de admissão.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtnModal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="addUserBtn">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="assets/libs/jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/js/global.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "lengthChange": false,
-                "pageLength": 10,
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nada encontrado - desculpe",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Buscar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                }
-            });
+        // Chama a função para buscar dados via AJAX
+        updateUsersTable();
 
+        //Chama função para validar formulário
+        formValidate();
 
-            Swal.fire({
-                title: 'Bem-vindo!',
-                text: 'Sua tabela foi carregada com sucesso.',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            });
-        });
+        //Cria função para controlar botão de envio de dados de novo usuario
+        document.querySelector('#addUserBtn').addEventListener("click", function (){
+            addUserButtonControl();
+        })
     </script>
 </body>
 </html>

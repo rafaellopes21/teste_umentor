@@ -24,13 +24,12 @@ class Controller{
         return $data;
     }
 
-    public function toJson(Array $arrayData, $typeMessage, $message = false, $error = false){
+    public function toJson(Array $arrayData, $message = false, $error = false){
         return \Flight::json([
             'error' => $error,
             'status' => $error ? 400 : 200,
             'response' => $arrayData,
             'message' => $message,
-            'type' => $typeMessage,
         ]);
     }
 }

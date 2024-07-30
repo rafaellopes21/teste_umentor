@@ -9,7 +9,7 @@ Projeto de teste Umentor para exibição de uma tabela de registro e cadastro de
 # INSTALAÇÃO
 Clone o repositório do projeto
 ```sh
- git clone....
+ git clone https://github.com/rafaellopes21/teste_umentor.git
 ```
 
 ## CONFIGURAÇÃO
