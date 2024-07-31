@@ -128,7 +128,7 @@
     <script src="assets/js/global.js"></script>
 
     <script>
-        // Chama a função para buscar dados via AJAX
+        // Chama a função para buscar dados e montar a tabela via AJAX
         updateUsersTable();
 
         //Chama função para validar formulário

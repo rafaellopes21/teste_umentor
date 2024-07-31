@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\helpers\DB;
 use App\Models\Usuarios;
 
 class UsersController extends Controller {
@@ -29,7 +28,6 @@ class UsersController extends Controller {
         }
 
         $users = empty($query) ? Usuarios::all() : Usuarios::whereRaw(substr_replace($query, '', -5))->get();
-
         $users = empty($users) ? [] : $users->toArray();
 
         //Cria uma lista com os campos que desejamos tratar formatação de data
@@ -58,7 +56,6 @@ class UsersController extends Controller {
 
             //Checa se já existe um usuário com o mesmo e-mail
             $userExists = Usuarios::where('email', $data['email'])->first();
-
 
             //Verifica se será um novo registro ou atualização de dados
             if(isset($data['id']) && $data['id']){

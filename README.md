@@ -38,3 +38,15 @@ necessárias e em seguida executará o projeto automaticamente:
 ```sh
  composer start
 ```
+
+## TECNOLOGIAS UTILIZADAS
+- PHP
+- Banco de Dados MySQL
+- Composer: Para instalar bibliotecas PHP no projeto
+- FlightPHP: Para criação de rotas
+- Eloquent: Para criação de models e comunicação com o banco de dados
+- Boostrap 5: Para estilização e design
+- JQuery: Para auxiliar nas atividades de front-end com JS
+- SweetAlert2: Para exibir mensagens no front-end
+- DataTables: Para construir e exibir tabelas no front-end
+- FontAwesome: Para inserir alguns ícones no front-end

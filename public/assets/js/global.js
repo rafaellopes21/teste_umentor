@@ -113,6 +113,15 @@ function validateField(field){
     field.classList.remove("is-valid");
     field.classList.remove("is-invalid");
 
+    if(field.type == "email"){
+        let regex = /\S+@\S+\.\S+/;
+        if(!regex.test(field.value)){
+            showSwalAlert('Ops!', 'O Email informado nao é válido!', 'error', 'Conferir');
+            field.classList.add("is-invalid");
+            return false;
+        }
+    }
+
     if(field.value.trim().length > 0 && field.value != "Selecione..."){
         field.classList.add("is-valid");
         return true;
