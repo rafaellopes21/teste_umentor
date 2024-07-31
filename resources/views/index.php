@@ -11,17 +11,52 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6ac77c14e0.js" crossorigin="anonymous"></script>
-    <link href="assets/css/global.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">Lista de Usuários Cadastrados</h2>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#inserUserModal">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#inserUserModal"
+                    id="addUserModalBtn">
                     <i class="fa-solid fa-plus"></i> Adicionar Usuário
                 </button>
+                <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                    <i class="fa-solid fa-filter"></i> Filtrar
+                </button>
+            </div>
+        </div>
+        
+        <div class="collapse" id="collapseFilter">
+            <div class="card card-body mb-3">
+                <form class="row" id="filter-form">
+                    <h6 class="text-center text-danger">Basta preencher ou selecionar e o filtro será aplicado automaticamente.</h6>
+                    <hr>
+                    <div class="col-sm-12 col-md-4 mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control filter-fields" name="email" oninput="filter()">
+                    </div>
+                    <div class="col-sm-12 col-md-3 mb-3">
+                        <label for="situacao" class="form-label">Situação</label>
+                        <select class="form-select filter-fields" name="situacao" onchange="filter()">
+                            <option value="*">Qualquer</option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-3 mb-3">
+                        <label for="data_admissao" class="form-label">Data de Admissão</label>
+                        <input type="date" class="form-control filter-fields" name="data_admissao" onchange="filter()">
+                    </div>
+                    <div class="col-sm-12 col-md-2 mb-3 d-grid gap-2">
+                        <button class="btn btn-primary" type="button" onclick="clearFilter()">
+                            <i class="fa-solid fa-erase"></i> Limpar Filtro
+                        </button>
+                    </div>
+                </form>
+
             </div>
         </div>
 
@@ -47,10 +82,11 @@
             <div class="modal-content">
                 <form id="form_user">
                     <div class="modal-header">
-                        <h5 class="modal-title">Adicionar Usuário</h5>
+                        <h5 class="modal-title">Registro de Usuário</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body row">
+                        <input hidden id="id" name="id">
                         <div class="col-sm-12 col-md-7 mb-3">
                             <label for="nome" class="form-label">Nome <small class="text-danger">*</small></label>
                             <input type="text" class="form-control validate-field" id="nome" name="nome" required>
@@ -78,7 +114,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtnModal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="addUserBtn">Adicionar</button>
+                        <button type="button" class="btn btn-primary" id="addUserBtn">Gravar</button>
                     </div>
                 </form>
             </div>
@@ -99,10 +135,10 @@
         //Chama função para validar formulário
         formValidate();
 
-        //Cria função para controlar botão de envio de dados de novo usuario
+        //Cria função para controlar botão de envio de dados de novo usuario e atualizações
         document.querySelector('#addUserBtn').addEventListener("click", function (){
             addUserButtonControl();
-        })
+        });
     </script>
 </body>
 </html>

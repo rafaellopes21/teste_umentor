@@ -1,12 +1,12 @@
 //Função que chama a API de listagem de usuários
-function updateUsersTable() {
+function updateUsersTable(hasFilters = '') {
     let tableUser = '#users_list';
     if ($.fn.dataTable.isDataTable(tableUser)) {
         $(tableUser).DataTable().destroy();
     }
 
     $.ajax({
-        url: '/api/users',
+        url: '/api/users'+hasFilters,
         method: 'GET',
         dataType: 'json',
 
@@ -31,7 +31,7 @@ function updateUsersTable() {
                         <td>${user.updated_at}</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <button class="btn btn-primary" type="button" title="Editar" onclick="editUser(${user.id})">
+                                <button class="btn btn-primary" type="button" title="Editar" onclick='editUser(${JSON.stringify(user)})'>
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
                                 <button class="btn btn-danger" type="button" title="Excluir" onclick="deleteUser(${user.id})">
@@ -61,12 +61,12 @@ function formatTable(tableUsers){
         "lengthChange": false,
         "pageLength": 10,
         "language": {
+            "search": "Pesquisar:",
             "lengthMenu": "Exibir _MENU_ registros por página",
             "zeroRecords": "Nada Registrado",
             "infoEmpty": "Nenhum registro encontrado",
             "infoFiltered": "(_MAX_ registros no total foram filtrados)",
             "info": "Exibindo página _PAGE_ de _PAGES_",
-            "search": "Buscar:",
             "paginate": {
                 "first": "Primeiro",
                 "last": "Último",
@@ -119,7 +119,7 @@ function addUserButtonControl(){
         showSwalAlert('Ops!', 'Alguns campos precisam ser revistos.', 'error', 'Verificar');
     } else {
         $.ajax({
-            url: '/api/user/insert',
+            url: '/api/user/insert-update',
             type: 'POST',
             data: new FormData(document.querySelector('#form_user')),
             contentType: false,
@@ -137,21 +137,28 @@ function addUserButtonControl(){
                         }
                         field.classList.remove("is-valid");
                     });
+                    clearFilter();
+                    document.querySelector("#id").value = "";
                     document.querySelector("#cancelBtnModal").click();
                 } else {
                     showSwalAlert('Ops!', data.message ?? "Um erro inesperado ocorreu!", 'error', 'Ok');
                 }
             },
             error: function(xhr, status, error) {
-                showSwalAlert('Erro!', 'Ocorreu um erro ao enviar os dados.', 'error', 'Ok');
+                showSwalAlert('Erro!', 'Ocorreu um erro ao gravar os dados.', 'error', 'Ok');
             }
         });
     }
 }
 
 //Função responsável por editar o registro na tabela
-function editUser(id){
-    console.log(id);
+function editUser(userData){
+    document.querySelector("#addUserModalBtn").click();
+    Object.keys(userData).forEach(field => {
+       if(document.getElementsByName(field)[0]){
+           document.getElementsByName(field)[0].value = field == "data_admissao" ? userData[field+"_original"] : userData[field];
+       }
+    });
 }
 
 //Função responsável por excluir o registro da tabela
@@ -182,6 +189,28 @@ function deleteUser(id){
             });
         }
     });
+}
+
+//Função responsável por filtrar dados na tabela
+function filter(){
+    let filters = "?";
+    document.querySelectorAll(".filter-fields").forEach(filter => {
+        filters += filter.name+"="+filter.value+"&";
+    });
+    filters = filters.slice(0, -1);
+    updateUsersTable(filters);
+}
+
+//Função que limpa o Filtro
+function clearFilter(){
+    document.querySelectorAll(".filter-fields").forEach(filter => {
+        if(filter.nodeName == "SELECT"){
+            filter.selectedIndex = 0;
+        } else {
+            filter.value = "";
+        }
+    });
+    filter();
 }
 
 //Função responsável por exibir mensagens do SwalAlert em tela
