@@ -54,24 +54,41 @@ function updateUsersTable(hasFilters = '') {
 //Função responsável por formatar a tabela (Datatable)
 function formatTable(tableUsers){
     $(tableUsers).DataTable({
+        "aaSorting": [[0, "desc"]],
+        "bDestroy": true,
         "paging": true,
         "searching": true,
         "ordering": true,
         "info": true,
         "lengthChange": false,
-        "pageLength": 10,
-        "language": {
-            "search": "Pesquisar:",
-            "lengthMenu": "Exibir _MENU_ registros por página",
-            "zeroRecords": "Nada Registrado",
-            "infoEmpty": "Nenhum registro encontrado",
-            "infoFiltered": "(_MAX_ registros no total foram filtrados)",
-            "info": "Exibindo página _PAGE_ de _PAGES_",
-            "paginate": {
-                "first": "Primeiro",
-                "last": "Último",
-                "next": "Próximo",
-                "previous": "Anterior"
+        "oLanguage": {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ resultados por página",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "Próximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Último"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            },
+            "select": {
+                "rows": {
+                    "_": "Selecionado %d linhas",
+                    "0": "Nenhuma linha selecionada",
+                    "1": "Selecionado 1 linha"
+                }
             }
         }
     });
@@ -154,9 +171,11 @@ function addUserButtonControl(){
 //Função responsável por editar o registro na tabela
 function editUser(userData){
     document.querySelector("#addUserModalBtn").click();
+    document.querySelector("#id").value = userData['id'];
     Object.keys(userData).forEach(field => {
-       if(document.getElementsByName(field)[0]){
-           document.getElementsByName(field)[0].value = field == "data_admissao" ? userData[field+"_original"] : userData[field];
+       let setToField = document.querySelector(".validate-field[name='"+field+"']");
+       if(setToField){
+           setToField.value = field == "data_admissao" ? userData[field+"_original"] : userData[field];
        }
     });
 }
